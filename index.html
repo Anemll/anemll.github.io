@@ -24,11 +24,11 @@
 
         header {
             text-align: center;
-            padding: 50px 0;
+            padding: 40px 0;
             background: linear-gradient(135deg, #312e81, #1e40af);
             color: white;
             border-radius: 10px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
@@ -151,42 +151,129 @@
                 font-size: 1rem;
             }
         }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 20%;
+            margin: 0 auto 15px;
+            display: block;
+            background-color: #0f172a;
+            padding: 12px;
+            border: 2px solid #334155;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .open-source-badge {
+            display: inline-block;
+            background: #0f172a;
+            color: #60a5fa;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            border: 1px solid #60a5fa;
+        }
+
+        .goals-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .goals-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .goals-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #60a5fa;
+        }
+
+        .highlight-box {
+            background: #1e293b;
+            border-left: 4px solid #60a5fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
     </style>
 </head>
 <body>
     <header>
+        <img src="AneMLL-robot.png" alt="ANEMLL Robot Logo" class="profile-photo">
         <h1>ANEMLL</h1>
         <p class="description">Artificial Neural Engine Machine Learning Library</p>
         <p style="font-size: 1rem; margin-top: 10px; opacity: 0.9;">(pronounced like "animal")</p>
+        <div class="open-source-badge">Open Source Project</div>
     </header>
 
     <main>
         <section class="content-section">
             <h2>About ANEMLL</h2>
-            <p>Welcome to ANEMLL, an open-source Artificial Neural Engine Machine Learning Library. Our mission is to provide robust, accessible, and innovative machine learning tools and implementations for researchers, developers, and enthusiasts. Through this platform, we showcase various ML implementations, provide comprehensive tutorials, and foster collaborative research explorations.</p>
+            <p>ANEMLL is focused on accelerating the porting of Large Language Models (LLMs) to tensor processors, starting with the Apple Neural Engine (ANE). Our mission is to provide a fully open-source pipeline from model conversion to inference for common LLM architectures.</p>
+            
+            <div class="highlight-box">
+                <p>Enabling seamless integration and on-device inference for low-power applications on edge devices, ensuring maximum privacy and security. Critical for autonomous applications where models run directly on the device without requiring an internet connection.</p>
+            </div>
+
+            <h3 style="color: #60a5fa; margin: 25px 0 15px;">Project Goals</h3>
+            <ul class="goals-list">
+                <li>Provide flexible and easy to use library/framework to port LLMs to ANE directly from Hugging Face models</li>
+                <li>Provide on-device examples for iOS and macOS swift or C/C++ Applications</li>
+                <li>Enable seamless integration for privacy-focused edge computing</li>
+            </ul>
         </section>
 
         <section class="content-section">
-            <h2>Featured Components</h2>
+            <h2>Core Components</h2>
             <div class="features">
                 <div class="feature-card">
-                    <h3>Neural Engine Core</h3>
-                    <p>Advanced neural network architectures and deep learning implementations optimized for performance and flexibility.</p>
+                    <h3>Model Conversion</h3>
+                    <p>Convert LLMs directly from Hugging Face to CoreML format, optimized for Apple Neural Engine. Currently supporting LLAMA models including DeepSeek distilled variants.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Vision Processing</h3>
-                    <p>Specialized computer vision modules for image processing, object detection, and visual recognition tasks.</p>
+                    <h3>ANE Optimization</h3>
+                    <p>Specialized model splitting and optimization for iOS (1GB) and macOS (2GB) constraints, with efficient handling of Embeddings, Feed Forward Networks, and LM Head components.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Language Models</h3>
-                    <p>Natural language processing tools for text analysis, sentiment classification, and advanced language modeling.</p>
+                    <h3>Inference Tools</h3>
+                    <p>Ready-to-use chat interfaces for testing and deployment, featuring conversation history management, context window handling, and performance monitoring.</p>
                 </div>
             </div>
         </section>
 
         <section class="content-section">
-            <h2>Getting Started</h2>
-            <p>Explore our open-source repository to access the library, run experiments, and contribute to the development. Each component includes detailed documentation, usage examples, and setup instructions to help you get started quickly.</p>
+            <h2>System Requirements</h2>
+            <div style="background: #0f172a; padding: 20px; border-radius: 8px; border: 1px solid #334155;">
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">• macOS Sequoia with Apple Neural Engine</li>
+                    <li style="margin-bottom: 10px;">• Minimum 16GB RAM</li>
+                    <li>• Python 3.9</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Current Release</h2>
+            <p style="margin-bottom: 20px;">Alpha Release 0.1.1 featuring:</p>
+            <div style="background: #0f172a; padding: 20px; border-radius: 8px; border: 1px solid #334155;">
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">• Single-shot model conversion</li>
+                    <li style="margin-bottom: 10px;">• Simplified model configuration</li>
+                    <li style="margin-bottom: 10px;">• Automated Hugging Face distribution preparation</li>
+                    <li style="margin-bottom: 10px;">• Enhanced Chat Interfaces with improved error handling</li>
+                    <li>• Improved LLaMA model with prefill optimization</li>
+                </ul>
+            </div>
         </section>
 
         <section class="content-section">
