@@ -173,11 +173,30 @@
             display: inline-block;
             background: #0f172a;
             color: #60a5fa;
-            padding: 5px 15px;
+            padding: 8px 20px;
             border-radius: 15px;
             font-size: 0.9rem;
-            margin-top: 10px;
+            margin-top: 15px;
             border: 1px solid #60a5fa;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .open-source-badge:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            color: #93c5fd;
+        }
+
+        .header-social {
+            margin: 10px 0 0 0;
+            gap: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .goals-list {
@@ -213,7 +232,20 @@
         <h1>ANEMLL</h1>
         <p class="description">Artificial Neural Engine Machine Learning Library</p>
         <p style="font-size: 1rem; margin-top: 10px; opacity: 0.9;">(pronounced like "animal")</p>
-        <div class="open-source-badge">Open Source Project</div>
+        <a href="https://github.com/anemll/anemll" class="open-source-badge" target="_blank">
+            Open Source Project
+        </a>
+        <div class="social-links header-social">
+            <a href="https://github.com/anemll/anemll" class="social-icon" target="_blank">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://huggingface.co/anemll" class="social-icon" target="_blank">
+                <i class="fas fa-robot"></i>
+            </a>
+            <a href="https://twitter.com/anemll_ai" class="social-icon" target="_blank">
+                X
+            </a>
+        </div>
     </header>
 
     <main>
