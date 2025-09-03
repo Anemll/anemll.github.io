@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI over Satellite PoC Consent</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
+    .consent-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; }
+    input[type="text"], button { padding: 8px; width: 100%; max-width: 300px; }
+    button { background-color: #007BFF; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #0056b3; }
+  </style>
+</head>
+<body>
+  <h1>AI over Satellite Proof of Concept Consent</h1>
+  <div class="consent-box">
+    <p>By providing your phone number and submitting this form, you consent to receive SMS messages from the AI over Satellite Proof of Concept service regarding our chat service. Message frequency varies, and standard message and data rates may apply. You can opt-out at any time by replying 'STOP' to any message.</p>
+  </div>
+  <form action="/submit-consent" method="POST">
+    <div class="form-group">
+      <label for="phone">Enter your phone number:</label>
+      <input type="text" id="phone" name="phone" placeholder="+1XXX-XXX-XXXX" required>
+    </div>
+    <div class="form-group">
+      <label>
+        <input type="checkbox" name="consent" required> I agree to receive SMS messages from the AI over Satellite Proof of Concept service.
+      </label>
+    </div>
+    <button type="submit">Submit Consent</button>
+  </form>
+  <p><small>Note: This consent will be recorded and linked as proof for messaging compliance.</small></p>
+</body>
+</html>
