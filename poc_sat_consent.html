@@ -1,36 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI over Satellite PoC Consent</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ANEMLL Customer Care – SMS Consent</title>
+  <meta name="description" content="Opt in to ANEMLL Customer Care SMS for reply-only support and optional service-status alerts.">
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
-    .consent-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; }
-    input[type="text"], button { padding: 8px; width: 100%; max-width: 300px; }
-    button { background-color: #007BFF; color: white; border: none; cursor: pointer; }
-    button:hover { background-color: #0056b3; }
+    :root { --bg:#0b0c10; --card:#111319; --ink:#e8ecf1; --muted:#a9b3bf; --accent:#4da3ff; --ok:#27ae60; --err:#e74c3c; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; background:linear-gradient(180deg,#0b0c10 0%, #0e1117 100%); color:var(--ink); font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+    .wrap{max-width:840px; margin:40px auto; padding:24px}
+    header{margin-bottom:20px}
+    h1{font-size:clamp(24px,3.2vw,36px); margin:0 0 8px}
+    p.lead{color:var(--muted); margin:0 0 10px;}
+    .card{background:var(--card); border:1px solid #202633; border-radius:16px; padding:24px; box-shadow:0 8px 28px rgba(0,0,0,.35)}
+    label{display:block; font-weight:600; margin:16px 0 6px}
+    input[type="tel"], input[type="text"], input[type="email"], textarea{width:100%; color:var(--ink); background:#0c0f15; border:1px solid #2a3342; border-radius:12px; padding:14px 14px; outline:none}
+    input[type="tel"]:focus, input[type="text"]:focus, textarea:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(77,163,255,.25)}
+    .consent-box{display:flex; gap:12px; align-items:flex-start; background:#0c0f15; border:1px solid #2a3342; border-radius:12px; padding:14px}
+    .consent-box input{margin-top:3px}
+    .consent-text{font-size:14px; color:#cbd5e1}
+    .muted{color:var(--muted); font-size:14px}
+    .row{display:grid; grid-template-columns:1fr; gap:14px}
+    @media(min-width:720px){ .row{grid-template-columns:1fr 1fr} }
+    .actions{display:flex; gap:12px; align-items:center; margin-top:18px}
+    button{appearance:none; border:0; background:var(--accent); color:#081018; font-weight:700; padding:14px 18px; border-radius:12px; cursor:pointer}
+    button:disabled{opacity:.6; cursor:not-allowed}
+    .note{background:#0c141f; border-left:4px solid var(--accent); padding:12px 14px; border-radius:8px; margin:12px 0}
+    .success{border-left-color:var(--ok)}
+    .error{border-left-color:var(--err)}
+    footer{margin-top:26px; color:var(--muted); font-size:13px}
+    a{color:#8bc5ff}
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
   </style>
 </head>
 <body>
-  <h1>AI over Satellite Proof of Concept Consent</h1>
-  <div class="consent-box">
-    <p>By providing your phone number and submitting this form, you consent to receive SMS messages from the AI over Satellite Proof of Concept service regarding our chat service. Message frequency varies, and standard message and data rates may apply. You can opt-out at any time by replying 'STOP' to any message.</p>
+  <div class="wrap">
+    <header>
+      <h1>ANEMLL Customer Care — SMS Consent</h1>
+      <p class="lead">Opt in to receive **reply-only** support messages when you text us, and optional non‑marketing service status alerts. You can opt out anytime.</p>
+    </header>
+
+    <section class="card" aria-labelledby="program">
+      <h2 id="program" class="sr-only">Program details</h2>
+      <div class="note">
+        <strong>Program:</strong> <span>ANEMLL Service Alerts & Customer Care (Toll‑Free SMS)</span><br>
+        <strong>Frequency:</strong> Up to 4 msgs/mo for optional alerts; reply-only for support conversations.<br>
+        <strong>Commands:</strong> Reply <b>STOP</b> to unsubscribe, <b>HELP</b> for help. <b>Msg &amp; data rates may apply.</b><br>
+        <strong>No purchase required:</strong> Consent is not a condition of purchase.<br>
+        <strong>Support:</strong> <a href="mailto:admin@anemll.com">admin@anemll.com</a>
+      </div>
+
+      <form id="consent-form" method="post" action="/consent/submit" novalidate>
+        <!-- Phone input -->
+        <label for="phone">Mobile phone number</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+1 555 555 1234" required pattern="^\+?[1-9]\d{1,14}$" aria-describedby="phoneHelp">
+        <div id="phoneHelp" class="muted">Enter in E.164 format (e.g., +15555551234).</div>
+
+        <!-- Consent checkbox with full disclosure inline -->
+        <div class="consent-box">
+          <input id="agree" name="agree" type="checkbox" required>
+          <label for="agree" class="consent-text">
+            I agree to receive SMS from <strong>ANEMLL</strong> at the number provided. Up to 4 msgs/mo for optional alerts; reply‑only responses for support. Msg &amp; data rates may apply. Reply <strong>STOP</strong> to opt out, <strong>HELP</strong> for help. Consent is not a condition of purchase. See <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms" target="_blank" rel="noopener">Terms</a>.
+          </label>
+        </div>
+
+        <!-- (Optional) allow proactive alerts explicitly -->
+        <label class="muted" style="margin-top:8px">
+          <input type="checkbox" name="proactive_opt_in" value="yes"> I also opt in to receive occasional non‑marketing service status alerts (up to 4 msgs/mo).
+        </label>
+
+        <!-- Hidden compliance/meta fields (populated by JS) -->
+        <input type="hidden" name="tz" id="tz">
+        <input type="hidden" name="ua" id="ua">
+        <input type="hidden" name="consent_ts" id="consent_ts">
+        <!-- Honeypot -->
+        <div class="sr-only" aria-hidden="true">
+          <label for="company">Company</label>
+          <input id="company" type="text" name="company" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="actions">
+          <button id="submitBtn" type="submit">Submit Consent</button>
+          <span id="formStatus" class="muted" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <div id="success" class="note success" hidden>
+        Thank you. Your SMS consent was recorded. You can reply <b>STOP</b> to opt out at any time or <b>HELP</b> for assistance.
+      </div>
+      <div id="error" class="note error" hidden>
+        There was a problem submitting your consent. Please check the fields and try again.
+      </div>
+
+      <footer>
+        This program is informational and non‑marketing. For data requests, contact <a href="mailto:admin@anemll.com">admin@anemll.com</a>.
+      </footer>
+    </section>
   </div>
-  <form action="/submit-consent" method="POST">
-    <div class="form-group">
-      <label for="phone">Enter your phone number:</label>
-      <input type="text" id="phone" name="phone" placeholder="+1XXX-XXX-XXXX" required>
-    </div>
-    <div class="form-group">
-      <label>
-        <input type="checkbox" name="consent" required> I agree to receive SMS messages from the AI over Satellite Proof of Concept service.
-      </label>
-    </div>
-    <button type="submit">Submit Consent</button>
-  </form>
-  <p><small>Note: This consent will be recorded and linked as proof for messaging compliance.</small></p>
+
+  <script>
+    // Helper: set hidden meta fields
+    const byId = (id)=>document.getElementById(id);
+    window.addEventListener('DOMContentLoaded', ()=>{
+      byId('tz').value = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      byId('ua').value = navigator.userAgent;
+      byId('consent_ts').value = new Date().toISOString();
+    });
+
+    // Basic client-side validation + progressive enhancement submit
+    const form = document.getElementById('consent-form');
+    const statusEl = document.getElementById('formStatus');
+    const successEl = document.getElementById('success');
+    const errorEl = document.getElementById('error');
+
+    form.addEventListener('submit', async (e)=>{
+      // If action is a real endpoint, let the browser post normally. If it's 
+      // a placeholder ("/consent/submit" here), we'll attempt fetch and fall back gracefully.
+      e.preventDefault();
+
+      successEl.hidden = true; errorEl.hidden = true; statusEl.textContent = '';
+
+      const phone = byId('phone');
+      const agree = byId('agree');
+      if (!phone.checkValidity()) { phone.focus(); statusEl.textContent = 'Please enter a valid phone in E.164 format.'; return; }
+      if (!agree.checked) { agree.focus(); statusEl.textContent = 'Please agree to receive SMS messages.'; return; }
+
+      byId('consent_ts').value = new Date().toISOString();
+
+      const data = new FormData(form);
+
+      try {
+        const resp = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+        if (resp.ok) {
+          form.reset();
+          successEl.hidden = false;
+          statusEl.textContent = '';
+        } else {
+          errorEl.hidden = false;
+          statusEl.textContent = 'Server error (' + resp.status + ').';
+        }
+      } catch (err) {
+        errorEl.hidden = false;
+        statusEl.textContent = 'Network error.';
+      }
+    });
+  </script>
 </body>
 </html>
