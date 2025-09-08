@@ -9,25 +9,37 @@
   <title>ANEMLL Customer Care – SMS Consent</title>
   <style>
     body{margin:0;background:#0b0c10;color:#e8ecf1;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    .wrap{max-width:720px;margin:40px auto;padding:24px}
+    .wrap{max-width:780px;margin:40px auto;padding:24px}
     h1{font-size:28px;margin-bottom:10px}
     .card{background:#111319;border:1px solid #202633;border-radius:14px;padding:24px;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+    .note{background:#0c141f;border-left:4px solid #4da3ff;padding:12px 14px;border-radius:8px;margin:0 0 16px}
+    .success{border-left-color:#27ae60}
     label{display:block;margin:14px 0 6px;font-weight:600}
     input[type="tel"],input[type="email"]{width:100%;padding:12px;border-radius:10px;border:1px solid #2a3342;background:#0c0f15;color:#e8ecf1}
     .consent-box{display:flex;gap:10px;align-items:flex-start;background:#0c0f15;border:1px solid #2a3342;border-radius:10px;padding:12px;margin-top:14px}
     .consent-text{font-size:14px;color:#cbd5e1}
+    .small{font-size:13px;color:#a9b3bf}
     button{margin-top:18px;background:#4da3ff;color:#081018;padding:12px 16px;border:0;border-radius:10px;font-weight:700;cursor:pointer}
-    .note{background:#0c141f;border-left:4px solid #4da3ff;padding:12px 14px;border-radius:8px;margin-top:14px}
-    .success{border-left-color:#27ae60}
+    a{color:#8bc5ff}
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>ANEMLL Customer Care — SMS Consent</h1>
+
+    <div class="note" id="program-note">
+      <strong>Program:</strong> ANEMLL Customer Care & optional Service Status Alerts (Toll‑Free SMS)<br>
+      <strong>Service scope:</strong> We provide <em>reply‑only</em> support to customer‑initiated messages. No marketing or promotional SMS.<br>
+      <strong>Frequency:</strong> Reply‑only for support conversations. Optional status alerts: up to 4 msgs/mo if you opt in below.<br>
+      <strong>Commands:</strong> Reply <b>STOP</b> to unsubscribe, <b>HELP</b> for help. <b>Msg & data rates may apply.</b><br>
+      <strong>Consent:</strong> Not a condition of purchase. Support: <a href="mailto:admin@anemll.com">admin@anemll.com</a>
+    </div>
+
     <section class="card">
       <form id="consent-form" novalidate>
         <label for="phone">Mobile phone number</label>
         <input id="phone" name="phone" type="tel" placeholder="+1 555 555 1234" required pattern="^\+?[1-9]\d{1,14}$">
+        <div class="small">Enter in E.164 format (e.g., +15555551234).</div>
 
         <label for="email">Email address (optional)</label>
         <input id="email" name="email" type="email" placeholder="you@example.com">
@@ -35,9 +47,13 @@
         <div class="consent-box">
           <input id="agree" name="agree" type="checkbox" required>
           <label for="agree" class="consent-text">
-            I agree to receive SMS from ANEMLL at the number provided. Up to 4 msgs/mo for optional alerts; reply-only for support. Msg & data rates may apply. Reply STOP to opt out, HELP for help.
+            I agree to receive SMS from <strong>ANEMLL</strong> at the number provided. Reply‑only responses for support. If I opt in below, I may also receive up to 4 non‑marketing service status alerts per month. Msg & data rates may apply. Reply <strong>STOP</strong> to opt out, <strong>HELP</strong> for help. Consent is not a condition of purchase. See <a href="/privacy" target="_blank">Privacy</a> and <a href="/terms" target="_blank">Terms</a>.
           </label>
         </div>
+
+        <label class="small" style="margin-top:10px">
+          <input type="checkbox" name="proactive_opt_in" value="yes"> I also opt in to receive occasional non‑marketing service status alerts (up to 4 msgs/mo).
+        </label>
 
         <button type="submit">Submit Consent</button>
       </form>
@@ -47,7 +63,9 @@
   </div>
 
   <script>
+    // Anti-cache reload for BFCache
     window.addEventListener('pageshow', (e) => { if (e.persisted) window.location.reload(); });
+
     const form = document.getElementById('consent-form');
     const successEl = document.getElementById('success');
 
@@ -56,9 +74,10 @@
       const phone = document.getElementById('phone').value.trim();
       const email = document.getElementById('email').value.trim();
       const agree = document.getElementById('agree');
-      if (!phone.match(/^\+?[1-9]\d{1,14}$/)) { alert('Enter valid phone number'); return; }
-      if (!agree.checked) { alert('You must agree to continue'); return; }
-      const ackVal = encodeURIComponent(phone + (email? '_' + email : ''));
+      if (!/^\+?[1-9]\d{1,14}$/.test(phone)) { alert('Enter a valid phone number in E.164 format.'); return; }
+      if (!agree.checked) { alert('You must agree to continue.'); return; }
+      const opted = document.querySelector('input[name="proactive_opt_in"]')?.checked ? 'optin' : 'replyonly';
+      const ackVal = encodeURIComponent(`${phone}${email? '_' + email : ''}_${opted}`);
       const url = new URL(window.location.href);
       url.searchParams.set('ack', ackVal);
       window.location.replace(url.toString());
@@ -68,9 +87,11 @@
       const url = new URL(window.location.href);
       if (url.searchParams.has('ack')) {
         const val = decodeURIComponent(url.searchParams.get('ack'));
-        form.hidden = true;
+        const [idPart, mode] = val.split('_').slice(0,2);
+        document.getElementById('consent-form').hidden = true;
         successEl.hidden = false;
-        successEl.textContent = 'Thank you. Your consent was recorded: ' + val;
+        successEl.innerHTML = `Thank you. Your consent was recorded: <b>${idPart}</b> (${mode === 'optin' ? 'reply-only + optional alerts' : 'reply-only'})<br>` +
+          `You can reply <b>STOP</b> to opt out at any time or <b>HELP</b> for assistance. Contact <a href="mailto:admin@anemll.com">admin@anemll.com</a>.`;
       }
     });
   </script>
