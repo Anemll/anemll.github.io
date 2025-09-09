@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ANEMLL DTC — Interactive AI Messaging over SMS (Direct‑to‑Cell)</title>
+  <meta name="description" content="Interactive AI customer care and status updates over SMS, engineered for terrestrial and Direct‑to‑Cell satellite links." />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <style>
+    :root{--bg:#0b0c10;--bg2:#0e1117;--card:#111319;--ink:#e8ecf1;--muted:#a9b3bf;--brand:#63b3ff;--accent:#4da3ff}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:#93caff;text-decoration:none}
+    .wrap{max-width:1100px;margin:0 auto;padding:28px}
+    .hero{display:grid;grid-template-columns:1.1fr 0.9fr;gap:26px;align-items:center}
+    @media (max-width:980px){.hero{grid-template-columns:1fr}}
+    h1{font-size:clamp(30px,5vw,48px);line-height:1.08;margin:0 0 10px}
+    .lead{color:var(--muted);font-size:clamp(16px,2.1vw,18px);margin:0 0 18px}
+    .badge{display:inline-block;background:#0c141f;border:1px solid #223044;color:#b7c6d9;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.2px}
+    .card{background:var(--card);border:1px solid #202633;border-radius:16px;padding:22px;box-shadow:0 10px 32px rgba(0,0,0,.35)}
+    .btn{appearance:none;border:0;background:var(--accent);color:#081018;font-weight:800;padding:13px 16px;border-radius:12px;cursor:pointer}
+    .btn.secondary{background:#243044;color:#d9e1ec}
+    .cta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+    .grid{display:grid;gap:18px}
+    .cols-3{grid-template-columns:repeat(3,1fr)}
+    .cols-2{grid-template-columns:repeat(2,1fr)}
+    @media (max-width:980px){.cols-3,.cols-2{grid-template-columns:1fr}}
+    h2{font-size:clamp(22px,3.2vw,30px);margin:0 0 10px}
+    h3{font-size:18px;margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    footer{margin-top:40px;color:var(--muted);font-size:13px}
+    .pill{display:inline-block;border:1px solid #2a374a;border-radius:999px;padding:6px 10px;margin:3px;background:#101827}
+    .list{margin:0;padding-left:18px}
+    .list li{margin:6px 0}
+    .section{margin-top:32px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <span class="badge">ANEMLL DTC • Direct‑to‑Cell Ready</span>
+        <h1>ANEMLL DTC — Interactive AI Messaging over SMS<br/>for terrestrial & Direct‑to‑Cell satellite communications</h1>
+        <p class="lead">ANEMLL DTC delivers instant answers, status checks, and guided workflows via plain‑text messaging—no apps, no data plan. Built for harsh and low‑bandwidth environments.</p>
+        <div class="cta">
+          <a class="btn" href="#get-started">Get Started</a>
+          <a class="btn secondary" href="#architecture">How it works</a>
+        </div>
+        <div style="margin-top:10px">
+          <span class="pill">Reply‑only support</span>
+          <span class="pill">Optional service alerts</span>
+          <span class="pill">STOP/HELP compliance</span>
+          <span class="pill">Low‑bandwidth optimized</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="mono">Example SMS</h3>
+        <p class="muted">Customer → “status?”<br/>ANEMLL DTC → “Your connection is stable. Reply HELP for assistance, STOP to unsubscribe.”</p>
+        <p class="muted">Alert (optional) → “Maintenance Wed 02:00–03:00. Temporary interruptions possible. STOP to opt out.”</p>
+      </div>
+    </section>
+
+    <!-- VALUE -->
+    <section class="section">
+      <h2>Built for the edge — and beyond</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Works off‑grid</h3><p class="muted">Coverage via terrestrial towers and Direct‑to‑Cell satellites means reach in remote locations, at sea, and in disaster zones.</p></div>
+        <div class="card"><h3>AI that actually helps</h3><p class="muted">Resolve common issues, triage incidents, and escalate to humans with structured hand‑offs—entirely in SMS.</p></div>
+        <div class="card"><h3>Resilient & efficient</h3><p class="muted">Designed for high‑latency, low‑throughput links with concise prompts and compressed state.</p></div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE / HOW IT WORKS -->
+    <section id="architecture" class="section">
+      <h2>How it works</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Messaging workflow</h3>
+          <ol class="list">
+            <li>Customer texts your toll‑free number (reply‑only support by default).</li>
+            <li>ANEMLL DTC AI parses intent and responds with guidance or status.</li>
+            <li>Optional: if a user opts into alerts, we send non‑marketing status updates (≤4 msgs/mo).</li>
+            <li>At any time: STOP to unsubscribe, HELP for assistance.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>Direct‑to‑Cell readiness</h3>
+          <ul class="list">
+            <li>Short prompts & responses for low SNR links</li>
+            <li>Idempotent flows to survive message loss</li>
+            <li>Adaptive retry windows for satellite latency</li>
+            <li>No app install—SMS only</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section class="section">
+      <h2>Use cases</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Field service</h3><p class="muted">Status checks, maintenance windows, location‑aware tips.</p></div>
+        <div class="card"><h3>Maritime & remote ops</h3><p class="muted">Low‑bandwidth incident triage and coordination.</p></div>
+        <div class="card"><h3>Public safety</h3><p class="muted">Broadcast non‑marketing alerts to opted‑in personnel.</p></div>
+      </div>
+    </section>
+
+    <!-- PRICING (PLACEHOLDERS) -->
+    <section class="section" id="pricing">
+      <h2>Pricing</h2>
+      <div class="card" style="margin-bottom:14px;background:#0c141f;border-left:4px solid #27ae60">
+        <strong>Trial Phase:</strong> <span class="mono">FREE</span> — unlimited evaluation within fair use. No commitment.
+      </div>
+      <div class="grid cols-3">
+        <div class="card"><h3>Starter</h3><p class="muted">Up to 1,000 messages / mo</p><p class="mono">$0 during Trial Phase</p></div>
+        <div class="card"><h3>Growth</h3><p class="muted">Up to 25,000 messages / mo</p><p class="mono">$ — after trial</p></div>
+        <div class="card"><h3>Enterprise</h3><p class="muted">Custom routing, SLAs, priority support</p><p class="mono">Contact sales</p></div>
+      </div>
+    </section>
+
+    <!-- COMPLIANCE SUMMARY -->
+    <section class="section" id="compliance">
+      <h2>Compliance at a glance</h2>
+      <div class="card">
+        <ul class="list">
+          <li>Traffic type: <b>Customer Care</b> (reply‑only) + optional non‑marketing alerts (opt‑in, ≤4 msgs/mo)</li>
+          <li>Each message includes <b>STOP</b>/<b>HELP</b> instructions</li>
+          <li>No marketing or promotional SMS</li>
+          <li>Privacy & Terms hosted on your domain</li>
+        </ul>
+        <p class="muted" style="margin-top:8px">Need a consent page? We can provide a compliant template on request.</p>
+      </div>
+    </section>
+
+    <!-- GET STARTED -->
+    <section id="get-started" class="section">
+      <h2>Get started</h2>
+      <div class="card">
+        <ol class="list">
+          <li>Text <span class="mono">+1‑XXX‑XXX‑XXXX</span> to start a conversation with ANEMLL DTC Support.</li>
+          <li>Add your toll‑free number to your website and IVR.</li>
+          <li>(Optional) Publish a web form for opt‑in to service alerts.</li>
+        </ol>
+        <div class="cta">
+          <a class="btn" href="#pricing">See pricing</a>
+          <a class="btn secondary" href="mailto:admin@anemll.com">Contact sales</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="y"></span> ANEMLL LLC • <a href="/privacy" target="_blank">Privacy</a> • <a href="/terms" target="_blank">Terms</a>
+    </footer>
+  </div>
+
+  <script>
+    // BFCache reload
+    addEventListener('pageshow', e=>{ if(e.persisted) location.reload(); });
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
