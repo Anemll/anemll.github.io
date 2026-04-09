@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANEMLL — Artificial Neural Engine Machine Learning Library</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --border: #222;
+            --green: #00ff41;
+            --green-dim: #00aa2a;
+            --green-glow: rgba(0,255,65,0.15);
+            --amber: #ffb000;
+            --amber-dim: #cc8a00;
+            --amber-glow: rgba(255,176,0,0.15);
+            --cyan: #00e5ff;
+            --red: #ff3b3b;
+            --text: #c0c0c0;
+            --text-dim: #666;
+            --hot: #ff6600;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: auto;
+        }
+
+        /* CRT scanline overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ─── HEADER / TERMINAL ─── */
+        .terminal-window {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin: 30px auto;
+            overflow: hidden;
+        }
+        .terminal-bar {
+            background: #1a1a1a;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .terminal-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ff5f57; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #28c840; }
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+        }
+        .terminal-body {
+            padding: 28px 24px;
+        }
+
+        .prompt { color: var(--green); }
+        .cmd { color: #fff; }
+        .comment { color: var(--text-dim); font-style: italic; }
+        .flag { color: var(--amber); }
+        .output { color: var(--text); }
+        .highlight { color: var(--cyan); }
+        .hot-text { color: var(--hot); }
+
+        pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: inherit;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.1em;
+            background: var(--green);
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* ─── LOGO SECTION ─── */
+        .ascii-hero {
+            text-align: center;
+            padding: 50px 0 10px;
+        }
+        .ascii-hero img {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            filter: drop-shadow(0 0 20px var(--green-glow));
+            margin-bottom: 20px;
+        }
+        .ascii-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--green);
+            text-shadow: 0 0 30px var(--green-glow), 0 0 60px rgba(0,255,65,0.08);
+            letter-spacing: 0.15em;
+            margin-bottom: 4px;
+        }
+        .ascii-sub {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px dashed var(--border);
+            margin: 30px 0;
+        }
+
+        /* ─── SECTION HEADERS ─── */
+        .section-head {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--amber);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 6px;
+        }
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--green);
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px var(--green-glow);
+        }
+
+        section { padding: 20px 0; }
+
+        /* ─── REPO TABLE ─── */
+        .repo-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        .repo-table th {
+            text-align: left;
+            color: var(--amber);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .repo-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            vertical-align: top;
+        }
+        .repo-table tr:hover td {
+            background: rgba(0,255,65,0.03);
+        }
+        .repo-table a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .repo-table a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 8px rgba(0,229,255,0.3);
+        }
+        .repo-table .desc {
+            color: var(--text-dim);
+            font-size: 0.75rem;
+        }
+        .repo-table .stars {
+            color: var(--amber);
+            white-space: nowrap;
+        }
+        .repo-table .views {
+            color: var(--green-dim);
+            white-space: nowrap;
+        }
+        .repo-table .clones {
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+        .repo-table .lang {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .hot-badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--bg);
+            background: var(--hot);
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        /* ─── TRENDING BLOCK ─── */
+        .trending-block {
+            background: var(--surface);
+            border: 1px solid var(--hot);
+            border-radius: 4px;
+            padding: 20px 24px;
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .trending-block::before {
+            content: '>>> TRENDING';
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            background: var(--bg);
+            color: var(--hot);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            padding: 0 8px;
+        }
+        .trending-block h3 a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.05rem;
+        }
+        .trending-block h3 a:hover { color: var(--cyan); }
+        .trending-block p {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            margin: 6px 0 12px;
+        }
+        .trending-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.75rem;
+        }
+        .trending-stats span {
+            color: var(--text-dim);
+        }
+        .trending-stats .num {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        /* ─── LINKS ─── */
+        .links-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 20px 0;
+        }
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .link-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+            box-shadow: 0 0 12px var(--green-glow);
+        }
+        .link-btn i { font-size: 0.85rem; }
+
+        /* ─── FOOTER ─── */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            border-top: 1px dashed var(--border);
+            margin-top: 20px;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .ascii-title { font-size: 1.6rem; }
+            .repo-table { font-size: 0.7rem; }
+            .repo-table .desc { display: none; }
+            .trending-stats { flex-wrap: wrap; gap: 10px; }
+            pre { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<div class="ascii-hero">
+    <img src="AneMLL-robot.png" alt="ANEMLL">
+    <div class="ascii-title">ANEMLL</div>
+    <div class="ascii-sub">Artificial Neural Engine Machine Learning Library &mdash; "animal"</div>
+</div>
+
+<div class="container">
+
+<!-- ─── BOOT SEQUENCE ─── -->
+<div class="terminal-window">
+    <div class="terminal-bar">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">anemll &mdash; zsh</span>
+    </div>
+    <div class="terminal-body">
+<pre><span class="prompt">$</span> <span class="cmd">cat</span> <span class="flag">about.txt</span>
+
+<span class="output">On-device AI inference for Apple Silicon.
+From model conversion to deployment — fully open source.
+
+LLMs on Apple Neural Engine. No cloud. No compromise.
+Convert from HuggingFace → CoreML → ANE in one pipeline.</span>
+
+<span class="prompt">$</span> <span class="cmd">gh repo view</span> <span class="flag">Anemll/Anemll</span> <span class="flag">--json stargazerCount</span>
+<span class="output">{ "stargazerCount": <span class="highlight">1568</span> }</span>
+
+<span class="prompt">$</span> <span class="cursor"></span></pre>
+    </div>
+</div>
+
+<hr class="divider">
+
+<!-- ─── TRENDING ─── -->
+<section>
+    <div class="section-head">// status</div>
+    <div class="section-title">$ top --sort=traffic</div>
+
+    <div class="trending-block">
+        <h3><a href="https://github.com/Anemll/anemll-flash-llama.cpp" target="_blank">anemll-flash-llama.cpp</a> <span class="hot-badge">HOT</span></h3>
+        <p>Flash-MoE sidecar slot-bank runtime for large GGUF MoE models on Apple Silicon — llama.cpp fork</p>
+        <div class="trending-stats">
+            <span><i class="fas fa-star" style="color:var(--amber)"></i> <span class="num">39</span> stars</span>
+            <span><i class="fas fa-eye"></i> <span class="num">1,303</span> views/14d</span>
+            <span><i class="fas fa-download"></i> <span class="num">727</span> clones/14d</span>
+            <span>lang: <span style="color:var(--cyan)">C++</span></span>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── FLASH-MOE ECOSYSTEM ─── -->
+<section>
+    <div class="section-head">// ecosystem</div>
+    <div class="section-title">$ ls flash-moe/</div>
+
+    <table class="repo-table">
+        <thead>
+            <tr>
+                <th>Repo</th>
+                <th>Description</th>
+                <th>Stars</th>
+                <th>Views</th>
+                <th>Clones</th>
+                <th>Lang</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="https://github.com/Anemll/flash-moe" target="_blank">flash-moe</a></td>
+                <td class="desc">Core Flash-MoE engine</td>
+                <td class="stars">195</td>
+                <td class="views">985</td>
+                <td class="clones">84</td>
+                <td class="lang">Obj-C</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/Anemll/anemll-flash-llama.cpp" target="_blank">anemll-flash-llama.cpp</a> <span class="hot-badge">HOT</span></td>
+                <td class="desc">Sidecar for GGUF MoE on Apple Silicon</td>
+                <td class="stars">39</td>
+                <td class="views">1,303</td>
+                <td class="clones">727</td>
+                <td class="lang">C++</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/Anemll/Flash-iOS" target="_blank">Flash-iOS</a></td>
+                <td class="desc">MoE models on iPhone</td>
+                <td class="stars">45</td>
+                <td class="views">155</td>
+                <td class="clones">39</td>
+                <td class="lang">Obj-C</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/Anemll/anemll-flash-mlx" target="_blank">anemll-flash-mlx</a></td>
+                <td class="desc">Flash-MoE for MLX framework</td>
+                <td class="stars">28</td>
+                <td class="views">464</td>
+                <td class="clones">101</td>
+                <td class="lang">Python</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<hr class="divider">
+
+<!-- ─── DEV TOOLS ─── -->
+<section>
+    <div class="section-head">// tools</div>
+    <div class="section-title">$ ls dev-tools/</div>
+
+    <table class="repo-table">
+        <thead>
+            <tr>
+                <th>Repo</th>
+                <th>Description</th>
+                <th>Stars</th>
+                <th>Lang</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="https://github.com/Anemll/anemll-bench" target="_blank">anemll-bench</a></td>
+                <td class="desc">Benchmarking suite for on-device ML</td>
+                <td class="stars">49</td>
+                <td class="lang">Python</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/Anemll/anemll-profile" target="_blank">anemll-profile</a></td>
+                <td class="desc">ANE CostModel profiler for CoreML</td>
+                <td class="stars">27</td>
+                <td class="lang">Obj-C</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/Anemll/anemllclaw" target="_blank">anemllclaw</a></td>
+                <td class="desc">AI dev assistant</td>
+                <td class="stars">28</td>
+                <td class="lang">TypeScript</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/Anemll/anemll_macOS_agent" target="_blank">anemll_macOS_agent</a></td>
+                <td class="desc">Remote control agent for macOS</td>
+                <td class="stars">12</td>
+                <td class="lang">Swift</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<hr class="divider">
+
+<!-- ─── MORE PROJECTS ─── -->
+<section>
+    <div class="section-head">// more</div>
+    <div class="section-title">$ ls experiments/</div>
+
+    <table class="repo-table">
+        <thead>
+            <tr>
+                <th>Repo</th>
+                <th>Description</th>
+                <th>Stars</th>
+                <th>Lang</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="https://github.com/Anemll/mlx-rdma" target="_blank">mlx-rdma</a></td>
+                <td class="desc">MLX + RDMA distributed experiments</td>
+                <td class="stars">68</td>
+                <td class="lang">C++</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/Anemll/anemll-thunderbolt-BFP" target="_blank">anemll-thunderbolt-BFP</a></td>
+                <td class="desc">Thunderbolt block floating point</td>
+                <td class="stars">5</td>
+                <td class="lang">C++</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/Anemll/qwen3_apple_style_2bit_qat_lora" target="_blank">qwen3_apple_style_2bit_qat_lora</a></td>
+                <td class="desc">2-bit QAT and LoRA experiments</td>
+                <td class="stars">4</td>
+                <td class="lang">Jupyter</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<hr class="divider">
+
+<!-- ─── CONNECT ─── -->
+<section style="text-align:center;">
+    <div class="section-head">// connect</div>
+    <div class="section-title">$ open links/*</div>
+    <div class="links-row">
+        <a href="https://github.com/Anemll" class="link-btn" target="_blank">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://huggingface.co/anemll" class="link-btn" target="_blank">
+            <i class="fas fa-robot"></i> HuggingFace
+        </a>
+        <a href="https://x.com/anemll" class="link-btn" target="_blank">
+            <i class="fab fa-x-twitter"></i> X
+        </a>
+        <a href="https://anemll.com" class="link-btn" target="_blank">
+            <i class="fas fa-globe"></i> anemll.com
+        </a>
+    </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 ANEMLL &mdash; open source &mdash; built for Apple Silicon</p>
+    </div>
+</footer>
+
+</body>
+</html>
