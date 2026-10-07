@@ -763,8 +763,30 @@
             </div>
         </div>
 
-        <!-- Companion Tool -->
+        <!-- Companion Tools -->
         <div class="companions animate delay-3" style="grid-template-columns: 1fr;">
+            <div class="companion-card" style="display:flex;gap:20px;align-items:flex-start;">
+                <div class="companion-icon" style="background:linear-gradient(135deg,#f97316,#fb923c);margin-bottom:0;">
+                    <i class="fas fa-microchip" style="color:#fff"></i>
+                </div>
+                <div style="flex:1;">
+                    <div class="companion-label" style="color:var(--hot);background:var(--hot-glow);">ANE Inference</div>
+                    <h4><a href="https://github.com/Anemll/anemll-forge" target="_blank">anemll-forge</a></h4>
+                    <p class="companion-desc">
+                        Pipeline and inference code to run large dense LLMs on the Apple Neural Engine
+                        via Core AI / Core ML. Targets Apple M6 with FP8 / int8 accelerated compute,
+                        including a first adaptation of Qwen 3.8 27B. Vector quantization is a
+                        supporting research project.
+                    </p>
+                    <div class="stats-row" style="margin-bottom:12px;">
+                        <span class="stat"><i class="fas fa-star" style="color:#facc15"></i> <span class="num" id="stars-anemll-forge">23</span></span>
+                        <span class="stat"><span class="lang-dot lang-python" style="width:8px;height:8px"></span> Python</span>
+                    </div>
+                    <a href="https://github.com/Anemll/anemll-forge" class="btn btn-secondary" target="_blank" style="padding:7px 14px;font-size:0.8rem;">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
             <div class="companion-card" style="display:flex;gap:20px;align-items:flex-start;">
                 <div class="companion-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);margin-bottom:0;">
                     <i class="fas fa-magnifying-glass-chart" style="color:#fff"></i>
@@ -1055,6 +1077,7 @@
         { name: 'Anemll/mlx-rdma',              selectors: ['#stars-mlx-rdma'] },
         { name: 'Anemll/anemll-bench',          selectors: ['#stars-anemll-bench'] },
         { name: 'Anemll/anemll-profile',        selectors: ['#stars-anemll-profile'] },
+        { name: 'Anemll/anemll-forge',          selectors: ['#stars-anemll-forge'] },
         { name: 'Anemll/anemllclaw',            selectors: ['#stars-anemllclaw'] },
         { name: 'Anemll/anemll_macOS_agent',    selectors: ['#stars-macos-agent'] },
         { name: 'Anemll/anemll-thunderbolt-BFP', selectors: ['#stars-thunderbolt'] },
